@@ -50,7 +50,7 @@ def relogin_on_401(f):
 
 
 class Connection(object):
-    def __init__(self, url, login=None, password=None, proxy_info=None, api_key=None):
+    def __init__(self, url, login=None, password=None, proxy_info=None, api_key=None, token=None):
         self.http = httplib2.Http(disable_ssl_certificate_validation=True) if proxy_info is None else httplib2.Http(
             proxy_info=proxy_info, disable_ssl_certificate_validation=True)
 
@@ -60,11 +60,13 @@ class Connection(object):
 
         self.url = url
         self.base_url = url + "/rest"
-        if api_key is None:
+        if token is not None:
+            self.headers = {'Authorization': 'Bearer ' + token}
+        elif api_key is not None:
+            self.headers = {'X-YouTrack-ApiKey': api_key}
+        else:
             self._credentials = (login, password)
             self._login(*self._credentials)
-        else:
-            self.headers = {'X-YouTrack-ApiKey': api_key}
 
     def _login(self, login, password):
         response, content = self.http.request(
