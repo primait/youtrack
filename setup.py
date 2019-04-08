@@ -30,7 +30,7 @@ try:
     import pypandoc
 
     print("Converting README...")
-    long_description = pypandoc.convert('README.md', 'rst')
+    long_description = pypandoc.convert_file('README.md', 'rst')
     if branch:
         long_description = long_description.replace('youtrack.svg?branch=master',
                                                     'youtrack.svg?branch={}'.format(branch))
@@ -62,15 +62,15 @@ else:
         print("  failed!")
 
 setup(
-    name='dohq-youtrack',
+    name='prima-youtrack',
     version=version,
     license='MIT License',
-    description='YouTrack Python 3 Client Library',
-    long_description='Documentation: https://devopshq.github.io/youtrack/',
-    author='Alexander Kovalev',
-    author_email='ak@alkov.pro',
-    url='https://devopshq.github.io/youtrack/',
-    download_url='https://github.com/devopshq/youtrack',
+    description='Prima.it YouTrack Python 3 Client Library',
+    long_description='Documentation: https://github.com/primait/youtrack',
+    author='Prima.it',
+    author_email='devops@prima.it',
+    url='https://github.com/primait/youtrack',
+    download_url='https://github.com/primait/youtrack',
     classifiers=[
         'Development Status :: {}'.format(develop_status),
         'Intended Audience :: Developers',
