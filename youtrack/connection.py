@@ -105,6 +105,18 @@ class Connection(object):
 
         return response, content
 
+    def _req_api(self, method, url, body=None, additional_headers=None):
+        headers = self.headers
+        if additional_headers != None:
+            headers = headers + additional_headers
+
+        response, content = self.http.request(self.url + "/api/" + url, method, headers=headers, body=body)
+
+        if response.status != 200 and response.status != 201:
+            raise youtrack.YouTrackException(url, response, content)
+
+        return response, content
+
     def _req_xml(self, method, url, body=None, ignore_status=None):
         response, content = self._req(method, url, body, ignore_status)
         if 'content-type' in response:
@@ -752,6 +764,11 @@ class Connection(object):
 
         time.sleep(5)
         return self.get_number_of_issues(_filter, False)
+
+    def get_all_agiles(self, fields="name"):
+        _response, content = self._req_api('GET', "agiles?fields={}".format(fields))
+        return json.loads(content)
+
 
     def get_all_sprints(self, agile_id):
         _response, content = self._req('GET', '/agile/' + agile_id + "/sprints?")
