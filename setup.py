@@ -4,27 +4,8 @@ import os
 from setuptools import setup
 from youtrack import config
 
-build_number = os.getenv('TRAVIS_BUILD_NUMBER', '')
-branch = os.getenv('TRAVIS_BRANCH', '')
-travis = any((build_number, branch,))
-version = config.__version__.split('.')
-develop_status = '4 - Beta'
-
-if travis:
-    version = version[0:3]
-    if branch == 'master':
-        develop_status = '5 - Production/Stable'
-        version.append(build_number)
-    else:
-        version.append('{}{}'.format('dev' if branch == 'develop' else branch, build_number))
-else:
-    if len(version) < 4:
-        version.append('local')
-
-version = '.'.join(version)
-if travis:
-    with open('youtrack/config.py', 'w', encoding="utf-8") as f:
-        f.write("__version__ = '{}'".format(version))
+version = config.__version__
+develop_status = '5 - Production/Stable'
 
 try:
     import pypandoc

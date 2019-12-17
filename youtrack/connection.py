@@ -765,8 +765,8 @@ class Connection(object):
         time.sleep(5)
         return self.get_number_of_issues(_filter, False)
 
-    def get_all_agiles(self, fields="name"):
-        _response, content = self._req_api('GET', "agiles?fields={}".format(fields))
+    def get_all_agiles(self):
+        _response, content = self._req_api('GET', "agiles")
         return json.loads(content)
 
 
